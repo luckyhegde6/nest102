@@ -1,3 +1,5 @@
+# NestJS Modern DevOps Project
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
@@ -23,79 +25,138 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A modern NestJS starter with full Docker Compose, GitHub Actions CI/CD, Docker MCP integration, secrets management, and monitoring best practices.
 
-## Project setup
+---
 
+## 🚀 Quick Start
+
+### 1. **Local Development**
 ```bash
-$ npm install
+npm install
+npm run start:dev
 ```
 
-## Compile and run the project
-
+### 2. **Run with Docker Compose**
 ```bash
-# development
-$ npm run start
+# Build and start all services (NestJS + MySQL)
+npm run docker:up
 
-# watch mode
-$ npm run start:dev
+# View logs for the main container
+npm run docker:logs
 
-# production mode
-$ npm run start:prod
+# Stop all services
+docker compose down
+
+# Remove all containers, images, and volumes for a clean slate
+npm run docker:terminate
 ```
 
-## Run tests
-
+### 3. **Testing**
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run test        # Unit tests
+npm run test:e2e    # End-to-end tests
+npm run test:cov    # Coverage
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 🐳 Docker & Docker Compose
+- All app and DB services are defined in `docker-compose.yml`.
+- Use the npm scripts for easy management:
+  - `npm run docker:build` – Build images
+  - `npm run docker:up` – Start services
+  - `npm run docker:down` – Stop services
+  - `npm run docker:logs` – View logs
+  - `npm run docker:terminate` – Full cleanup (containers, images, volumes)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+---
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+## 🔄 GitHub Actions CI/CD
+- Automated build, test, and Docker image push on every push to `main`.
+- See `.github/workflows/docker.yml` for details.
+- Images are pushed to Docker Hub (`yourdockerhubuser/nest102:latest`).
+
+---
+
+## ☁️ Docker MCP Integration
+- Deploy your app using Docker MCP (Managed Control Plane) for orchestration, scaling, and monitoring.
+- Configure your MCP stack/service to use the latest image from Docker Hub.
+- Use MCP's secrets manager for DB and JWT secrets.
+- Set up webhooks or API triggers for auto-redeploy on new image push.
+
+---
+
+## 🔒 Security & Secrets Management
+- **Never** commit secrets to code.
+- Use `.env` files locally (not committed), GitHub Secrets for CI, and MCP secrets for production.
+- Example secrets:
+  - `DB_PASSWORD`, `JWT_SECRET`, etc.
+
+---
+
+## 📈 Monitoring & Alerts
+- Use Docker MCP's built-in monitoring for container health, logs, and resource usage.
+- Add a `/health` endpoint with `@nestjs/terminus` for health checks (optional).
+- Set up alerts in MCP for failures or high resource usage.
+
+---
+
+## 📜 Scripts
+| Script                | Description                                  |
+|-----------------------|----------------------------------------------|
+| npm run start:dev     | Start NestJS in watch mode                   |
+| npm run docker:up     | Start all services with Docker Compose       |
+| npm run docker:down   | Stop all services                            |
+| npm run docker:logs   | View logs for main container                 |
+| npm run docker:terminate | Remove all containers, images, volumes    |
+| npm run test          | Run unit tests                               |
+| npm run test:e2e      | Run end-to-end tests                         |
+| npm run test:cov      | Run test coverage                            |
+
+---
+
+## 📝 Environment Variables
+See `.env.example` or below for required variables:
+
+```env
+# Database
+DB_HOST=mysql
+DB_PORT=3306
+DB_NAME=nestjs_db
+DB_USERNAME=nestjs_user
+DB_PASSWORD=nestjs_password
+DB_ROOT_PASSWORD=root_password
+
+# JWT
+JWT_SECRET=your-super-secret-key-here
+JWT_EXPIRATION=1h
+
+# App
+PORT=3000
+NODE_ENV=development
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 📦 Project Structure
+- `src/` – Source code
+- `Dockerfile` – Multi-stage build for production
+- `docker-compose.yml` – Service definitions
+- `.github/workflows/docker.yml` – CI/CD pipeline
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 📚 Resources
+- [NestJS Documentation](https://docs.nestjs.com)
+- [Docker Documentation](https://docs.docker.com/)
+- [GitHub Actions Docs](https://docs.github.com/en/actions)
+- [Your Docker MCP platform docs]
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
 ## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+MIT
 
 # Database
 DB_HOST=mysql
